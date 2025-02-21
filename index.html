@@ -1,49 +1,34 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VideoChat LIBRAS</title>
-    <link rel="stylesheet" href="styles.css">
-    <script defer src="/socket.io/socket.io.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/simple-peer/simplepeer.min.js"></script>
+    <title>LIBRAS Connect</title>
+    <link rel="stylesheet" href="style.css">
     <script defer src="script.js"></script>
 </head>
 <body>
     <header>
-        <h1>VideoChat LIBRAS</h1>
-        <p>Conecte-se com outras pessoas para praticar a Língua Brasileira de Sinais (LIBRAS) através de chamadas de vídeo e chat em tempo real.</p>
+        <h1>LIBRAS Connect</h1>
+        <nav>
+            <a href="video.html">📹 Vídeo Chamada</a>
+            <a href="chat.html">💬 Chat</a>
+            <a href="dicionario.html">📖 Dicionário de Libras</a>
+            <a href="contato.html">📩 Contato</a>
+        </nav>
     </header>
 
     <main>
-        <section class="intro">
-            <h2>Sobre o Projeto</h2>
-            <p>Nosso objetivo é criar uma plataforma acessível para estudantes e falantes de LIBRAS se comunicarem de forma prática e interativa.</p>
+        <section class="hero">
+            <h2>Conectando pessoas através da Língua Brasileira de Sinais</h2>
+            <p>Faça videochamadas, converse no chat e aprenda LIBRAS com nosso dicionário interativo.</p>
+            <a href="video.html" class="btn">Iniciar Vídeo Chamada</a>
         </section>
-
-        <section class="controls">
-            <button id="join-call">Iniciar Vídeo Chamada</button>
-            <button id="toggle-video">Ativar/Desativar Vídeo</button>
-            <button id="toggle-audio">Ativar/Desativar Áudio</button>
-        </section>
-
-        <div class="container">
-            <div class="video-container">
-                <video id="local-video" autoplay muted></video>
-                <video id="remote-video" autoplay></video>
-            </div>
-
-            <section class="chat-container">
-                <h2>Chat</h2>
-                <div id="chat-box"></div>
-                <input type="text" id="message-input" placeholder="Digite sua mensagem...">
-                <button id="send-message">Enviar</button>
-            </section>
-        </div>
     </main>
 
     <footer>
-        <p>&copy; 2025 VideoChat LIBRAS. Todos os direitos reservados.</p>
+        <p>&copy; 2025 LIBRAS Connect</p>
     </footer>
 </body>
 </html>
+
