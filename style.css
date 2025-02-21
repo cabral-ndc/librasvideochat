@@ -1,45 +1,80 @@
-body {
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #1e3c72, #2a5298);
-    color: white;
-    text-align: center;
+/* Degradê animado com movimento */
+@keyframes animatedGradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-header {
-    background: rgba(0, 0, 0, 0.7);
-    padding: 10px;
+.animated-bg {
+  background: linear-gradient(270deg, #6a11cb, #2575fc);
+  background-size: 400% 400%;
+  animation: animatedGradient 10s ease infinite;
 }
 
-nav ul {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
+/* Transições avançadas no menu */
+.menu-item {
+  position: relative;
+  transition: all 0.3s ease-in-out;
+}
+.menu-item:hover {
+  transform: scale(1.1);
+}
+.submenu {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.menu-item:hover .submenu {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-nav a {
-    text-decoration: none;
-    color: white;
-    font-weight: bold;
-    transition: 0.3s;
+/* Scroll Reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-nav a:hover {
-    color: #ffcc00;
-    transform: scale(1.1);
+/* Hover 3D nos cards */
+.card {
+  transition: transform 0.3s ease;
+}
+.card:hover {
+  transform: perspective(1000px) rotateY(10deg) rotateX(5deg);
 }
 
-.btn {
-    display: inline-block;
-    padding: 10px 20px;
-    background: #ffcc00;
-    color: black;
-    border-radius: 10px;
-    text-decoration: none;
-    transition: 0.3s;
+/* Placeholder animado no chat */
+@keyframes typing {
+  0%, 100% { content: 'Digite uma mensagem...'; }
+  50% { content: 'Conectando...'; }
+}
+.chat-input::placeholder {
+  font-style: italic;
+  animation: typing 4s infinite;
 }
 
-.btn:hover {
-    background: #ffaa00;
-    transform: scale(1.1);
+/* Animação de entrada suave (Slide-Up) */
+.slide-up {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
 }
+.slide-up.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Modo escuro automático */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #121212;
+    color: #ffffff;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+}
+
