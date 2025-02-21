@@ -1,82 +1,73 @@
-
 const socket = io();
+let localStream;
+let remoteStream;
+let peer;
 
-// Configuração do WebRTC
-const peer = new SimplePeer({
-    initiator: location.hash === '#host',
-    trickle: false
-});
-
-peer.on('signal', (data) => {
-    socket.emit('signal', data);
-});
-
-socket.on('signal', (data) => {
-    peer.signal(data);
-});
-
-peer.on('stream', (stream) => {
-    const video = document.getElementById('remote-video');
-    video.srcObject = stream;
-    video.play();
-});
-
-// Acessando câmera e microfone
-navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-    .then((stream) => {
-        const localVideo = document.getElementById('local-video');
-        localVideo.srcObject = stream;
-        localVideo.play();
-        peer.addStream(stream);
-    })
-    .catch((err) => console.error("Erro ao acessar câmera e microfone:", err));
-
-// Envio de mensagens no chat
-document.getElementById('send-message').addEventListener('click', () => {
-    const message = document.getElementById('message-input').value;
-    if (message.trim() !== '') {
-        socket.emit('chatMessage', message);
-        document.getElementById('message-input').value = '';
+// Captura vídeo e áudio
+async function getMedia() {
+    try {
+        localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        document.getElementById('local-video').srcObject = localStream;
+    } catch (error) {
+        console.error('Erro ao acessar câmera/microfone:', error);
     }
+}
+
+// Iniciar chamada
+document.getElementById('join-call').addEventListener('click', () => {
+    getMedia();
+    socket.emit('join-call');
 });
 
-// Recebendo mensagens do chat
-socket.on('chatMessage', (message) => {
-    const chatBox = document.getElementById('chat-box');
-    const msgElement = document.createElement('div');
-    msgElement.classList.add('message');
-    msgElement.innerText = message;
-    chatBox.appendChild(msgElement);
+// WebRTC
+socket.on('user-connected', (userId) => {
+    peer = new SimplePeer({
+        initiator: true,
+        trickle: false,
+        stream: localStream
+    });
+
+    peer.on('signal', (data) => {
+        socket.emit('signal', { userId, signal: data });
+    });
+
+    peer.on('stream', (stream) => {
+        document.getElementById('remote-video').srcObject = stream;
+    });
 });
 
-// Botões de ativar/desativar áudio e vídeo
-document.getElementById('toggle-audio').addEventListener('click', () => {
-    const stream = document.getElementById('local-video').srcObject;
-    const audioTrack = stream.getAudioTracks()[0];
-    audioTrack.enabled = !audioTrack.enabled;
+socket.on('signal', ({ signal }) => {
+    peer.signal(signal);
 });
 
+// Ativar/Desativar vídeo
 document.getElementById('toggle-video').addEventListener('click', () => {
-    const stream = document.getElementById('local-video').srcObject;
-    const videoTrack = stream.getVideoTracks()[0];
+    let videoTrack = localStream.getVideoTracks()[0];
     videoTrack.enabled = !videoTrack.enabled;
 });
 
-// Conectar usuário ao chat e vídeo chamada
-document.getElementById('join-call').addEventListener('click', () => {
-    socket.emit('joinCall');
+// Ativar/Desativar áudio
+document.getElementById('toggle-audio').addEventListener('click', () => {
+    let audioTrack = localStream.getAudioTracks()[0];
+    audioTrack.enabled = !audioTrack.enabled;
 });
 
-// Notificar sobre novos usuários na chamada
-socket.on('userConnected', (userId) => {
-    console.log(`Usuário conectado: ${userId}`);
+// Chat
+document.getElementById('send-message').addEventListener('click', () => {
+    let message = document.getElementById('message-input').value;
+    socket.emit('chat-message', message);
+    addMessage('Você', message);
+    document.getElementById('message-input').value = '';
 });
 
-// Melhorar experiência com animações
-document.getElementById('message-input').addEventListener('focus', () => {
-    document.getElementById('chat-box').classList.add('active');
+socket.on('chat-message', (data) => {
+    addMessage('Outro usuário', data);
 });
 
-document.getElementById('message-input').addEventListener('blur', () => {
-    document.getElementById('chat-box').classList.remove('active');
-});
+function addMessage(user, message) {
+    let chatBox = document.getElementById('chat-box');
+    let messageElement = document.createElement('p');
+    messageElement.textContent = `${user}: ${message}`;
+    chatBox.appendChild(messageElement);
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
