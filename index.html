@@ -1,81 +1,75 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vídeo Chat - Libras</title>
+    <title>VideoChat LIBRAS</title>
     <link rel="stylesheet" href="styles.css">
+    <script defer src="/socket.io/socket.io.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/simple-peer/simplepeer.min.js"></script>
+    <script defer src="script.js"></script>
 </head>
 <body>
-
     <header>
-        <h1>📢 Conectando Pessoas com Libras</h1>
-        <p>Um aplicativo para prática de Libras por meio de vídeo chamadas e chat.</p>
+        <h1>VideoChat LIBRAS</h1>
+        <p>Conecte-se com outras pessoas para praticar a Língua Brasileira de Sinais (LIBRAS) através de chamadas de vídeo e chat em tempo real.</p>
     </header>
 
     <nav>
-        <button onclick="showPage('video')">📹 Vídeo Chamada</button>
-        <button onclick="showPage('chat')">💬 Chat</button>
-        <button onclick="showPage('dictionary')">📖 Dicionário de Libras</button>
-        <button onclick="showPage('contact')">📩 Contato</button>
+        <button id="btn-video">📹 Vídeo Chamada</button>
+        <button id="btn-chat">💬 Chat</button>
+        <button id="btn-dictionary">📖 Dicionário de Libras</button>
+        <button id="btn-contact">📩 Contato</button>
     </nav>
 
     <main>
-        <!-- Vídeo Chamada -->
-        <section id="video" class="page active">
+        <!-- Seção de Vídeo Chamada -->
+        <section id="video-call" class="content-section">
             <h2>Vídeo Chamada</h2>
-            <div id="video-container">
-                <video id="localVideo" autoplay muted></video>
-                <video id="remoteVideo" autoplay></video>
+            <div class="video-container">
+                <video id="local-video" autoplay muted></video>
+                <video id="remote-video" autoplay></video>
             </div>
             <div class="controls">
-                <button id="startCall">▶️ Iniciar Chamada</button>
-                <button id="endCall">⛔ Encerrar</button>
-                <button id="toggleCamera">📷 Câmera</button>
-                <button id="toggleMic">🎤 Microfone</button>
-            </div>
-            <div id="chat-box">
-                <h3>Chat na Chamada</h3>
-                <div id="messages"></div>
-                <input type="text" id="messageInput" placeholder="Digite sua mensagem...">
-                <button id="sendMessage">Enviar</button>
+                <button id="join-call">Iniciar Chamada</button>
+                <button id="toggle-video">Ativar/Desativar Vídeo</button>
+                <button id="toggle-audio">Ativar/Desativar Áudio</button>
             </div>
         </section>
 
-        <!-- Chat -->
-        <section id="chat" class="page">
+        <!-- Seção de Chat -->
+        <section id="chat-section" class="content-section">
             <h2>Chat</h2>
-            <div id="chat-container">
-                <div id="messages"></div>
-                <input type="text" id="messageInput" placeholder="Digite sua mensagem...">
-                <button id="sendMessage">Enviar</button>
-            </div>
+            <div id="chat-box"></div>
+            <input type="text" id="message-input" placeholder="Digite sua mensagem...">
+            <button id="send-message">Enviar</button>
         </section>
 
-        <!-- Dicionário de Libras -->
-        <section id="dictionary" class="page">
-            <h2>Dicionário de Libras</h2>
-            <input type="text" id="wordInput" placeholder="Digite uma palavra">
-            <button onclick="searchWord()">Buscar</button>
-            <div id="dictionaryResult">
-                <p>Aqui aparecerá o sinal correspondente.</p>
-            </div>
+        <!-- Seção de Contatos -->
+        <section id="contacts" class="content-section">
+            <h2>Lista de Contatos</h2>
+            <ul id="contacts-list">
+                <li>Usuário 1</li>
+                <li>Usuário 2</li>
+                <li>Usuário 3</li>
+            </ul>
         </section>
 
-        <!-- Contato & Como Funciona -->
-        <section id="contact" class="page">
-            <h2>📩 Contato</h2>
+        <!-- Seção de Contato -->
+        <section id="contact-form" class="content-section">
+            <h2>Contato</h2>
             <p>Tem dúvidas ou sugestões? Entre em contato!</p>
             <form>
-                <input type="text" placeholder="Nome">
-                <input type="email" placeholder="Email">
-                <textarea placeholder="Sua mensagem"></textarea>
+                <input type="text" placeholder="Seu Nome">
+                <input type="email" placeholder="Seu Email">
+                <textarea placeholder="Sua Mensagem"></textarea>
                 <button type="submit">Enviar</button>
             </form>
         </section>
     </main>
 
-    <script src="script.js"></script>
-
+    <footer>
+        <p>&copy; 2025 VideoChat LIBRAS. Todos os direitos reservados.</p>
+    </footer>
 </body>
 </html>
