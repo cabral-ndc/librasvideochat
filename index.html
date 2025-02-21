@@ -11,19 +11,22 @@
 </head>
 <body>
     <header>
-        <h1>VideoChat LIBRAS</h1>
-        <p>Conecte-se com outras pessoas para praticar a Língua Brasileira de Sinais (LIBRAS) através de chamadas de vídeo e chat em tempo real.</p>
+        <div class="container">
+            <h1>VideoChat LIBRAS</h1>
+            <p>Conecte-se com outras pessoas para praticar a Língua Brasileira de Sinais (LIBRAS) através de chamadas de vídeo e chat em tempo real.</p>
+        </div>
     </header>
 
-    <nav>
-        <button id="btn-video">📹 Vídeo Chamada</button>
-        <button id="btn-chat">💬 Chat</button>
-        <button id="btn-dictionary">📖 Dicionário de Libras</button>
-        <button id="btn-contact">📩 Contato</button>
+    <nav class="navbar">
+        <div class="container">
+            <button id="btn-video">📹 Vídeo Chamada</button>
+            <button id="btn-chat">💬 Chat</button>
+            <button id="btn-dictionary">📖 Dicionário de Libras</button>
+            <button id="btn-contact">📩 Contato</button>
+        </div>
     </nav>
 
     <main>
-        <!-- Seção de Vídeo Chamada -->
         <section id="video-call" class="content-section">
             <h2>Vídeo Chamada</h2>
             <div class="video-container">
@@ -37,7 +40,6 @@
             </div>
         </section>
 
-        <!-- Seção de Chat -->
         <section id="chat-section" class="content-section">
             <h2>Chat</h2>
             <div id="chat-box"></div>
@@ -45,7 +47,6 @@
             <button id="send-message">Enviar</button>
         </section>
 
-        <!-- Seção de Contatos -->
         <section id="contacts" class="content-section">
             <h2>Lista de Contatos</h2>
             <ul id="contacts-list">
@@ -55,7 +56,6 @@
             </ul>
         </section>
 
-        <!-- Seção de Contato -->
         <section id="contact-form" class="content-section">
             <h2>Contato</h2>
             <p>Tem dúvidas ou sugestões? Entre em contato!</p>
