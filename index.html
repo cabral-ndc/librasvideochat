@@ -3,20 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Videochamada WebRTC</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Vídeo Chat - Libras</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Videochamada - Libras</h1>
-        <div class="video-container">
-            <video id="local-video" autoplay muted></video>
-            <video id="remote-video" autoplay></video>
-        </div>
-        <button id="start-call-btn">Iniciar Chamada</button>
-        <button id="end-call-btn" style="display:none;">Encerrar Chamada</button>
-    </div>
+
+    <header>
+        <h1>📢 Conectando Pessoas com Libras</h1>
+        <p>Um aplicativo para prática de Libras por meio de vídeo chamadas e chat.</p>
+    </header>
+
+    <nav>
+        <button onclick="showPage('video')">📹 Vídeo Chamada</button>
+        <button onclick="showPage('chat')">💬 Chat</button>
+        <button onclick="showPage('dictionary')">📖 Dicionário de Libras</button>
+        <button onclick="showPage('contact')">📩 Contato</button>
+    </nav>
+
+    <main>
+        <!-- Vídeo Chamada -->
+        <section id="video" class="page active">
+            <h2>Vídeo Chamada</h2>
+            <div id="video-container">
+                <video id="localVideo" autoplay muted></video>
+                <video id="remoteVideo" autoplay></video>
+            </div>
+            <div class="controls">
+                <button id="startCall">▶️ Iniciar Chamada</button>
+                <button id="endCall">⛔ Encerrar</button>
+                <button id="toggleCamera">📷 Câmera</button>
+                <button id="toggleMic">🎤 Microfone</button>
+            </div>
+            <div id="chat-box">
+                <h3>Chat na Chamada</h3>
+                <div id="messages"></div>
+                <input type="text" id="messageInput" placeholder="Digite sua mensagem...">
+                <button id="sendMessage">Enviar</button>
+            </div>
+        </section>
+
+        <!-- Chat -->
+        <section id="chat" class="page">
+            <h2>Chat</h2>
+            <div id="chat-container">
+                <div id="messages"></div>
+                <input type="text" id="messageInput" placeholder="Digite sua mensagem...">
+                <button id="sendMessage">Enviar</button>
+            </div>
+        </section>
+
+        <!-- Dicionário de Libras -->
+        <section id="dictionary" class="page">
+            <h2>Dicionário de Libras</h2>
+            <input type="text" id="wordInput" placeholder="Digite uma palavra">
+            <button onclick="searchWord()">Buscar</button>
+            <div id="dictionaryResult">
+                <p>Aqui aparecerá o sinal correspondente.</p>
+            </div>
+        </section>
+
+        <!-- Contato & Como Funciona -->
+        <section id="contact" class="page">
+            <h2>📩 Contato</h2>
+            <p>Tem dúvidas ou sugestões? Entre em contato!</p>
+            <form>
+                <input type="text" placeholder="Nome">
+                <input type="email" placeholder="Email">
+                <textarea placeholder="Sua mensagem"></textarea>
+                <button type="submit">Enviar</button>
+            </form>
+        </section>
+    </main>
 
     <script src="script.js"></script>
+
 </body>
 </html>
