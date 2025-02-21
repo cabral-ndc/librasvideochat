@@ -1,67 +1,82 @@
-const startCallBtn = document.getElementById('start-call-btn');
-const endCallBtn = document.getElementById('end-call-btn');
-const localVideo = document.getElementById('local-video');
-const remoteVideo = document.getElementById('remote-video');
-const statusMessage = document.getElementById('status-message');
 
-let localStream;
-let remoteStream;
-let peerConnection;
-const config = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] }; // STUN Server
+const socket = io();
 
-startCallBtn.addEventListener('click', startCall);
-endCallBtn.addEventListener('click', endCall);
+// Configuração do WebRTC
+const peer = new SimplePeer({
+    initiator: location.hash === '#host',
+    trickle: false
+});
 
-async function startCall() {
-    try {
-        statusMessage.textContent = 'Conectando...';
-        startCallBtn.disabled = true;
-        
+peer.on('signal', (data) => {
+    socket.emit('signal', data);
+});
 
+socket.on('signal', (data) => {
+    peer.signal(data);
+});
 
-        localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-        localVideo.srcObject = localStream;
+peer.on('stream', (stream) => {
+    const video = document.getElementById('remote-video');
+    video.srcObject = stream;
+    video.play();
+});
 
-        
-        peerConnection = new RTCPeerConnection(config);
+// Acessando câmera e microfone
+navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+    .then((stream) => {
+        const localVideo = document.getElementById('local-video');
+        localVideo.srcObject = stream;
+        localVideo.play();
+        peer.addStream(stream);
+    })
+    .catch((err) => console.error("Erro ao acessar câmera e microfone:", err));
 
-
-
-
-        localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
-
-        
-        peerConnection.ontrack = event => {
-            remoteStream = event.streams[0];
-            remoteVideo.srcObject = remoteStream;
-        };
-
-
-
-        const offer = await peerConnection.createOffer();
-        await peerConnection.setLocalDescription(offer);
-
-        
-        // enviarOferta(offer);
-
-        statusMessage.textContent = 'Chamada em andamento...';
-        startCallBtn.style.display = 'none';
-        endCallBtn.style.display = 'inline-block';
-        endCallBtn.disabled = false;
-    } catch (error) {
-        console.error('Erro ao iniciar a chamada:', error);
-        statusMessage.textContent = 'Erro ao iniciar a chamada. Tente novamente.';
-        startCallBtn.disabled = false;
+// Envio de mensagens no chat
+document.getElementById('send-message').addEventListener('click', () => {
+    const message = document.getElementById('message-input').value;
+    if (message.trim() !== '') {
+        socket.emit('chatMessage', message);
+        document.getElementById('message-input').value = '';
     }
-}
+});
 
-function endCall() {
-    statusMessage.textContent = 'Chamada encerrada.';
-    peerConnection.close();
-    localStream.getTracks().forEach(track => track.stop());
-    localVideo.srcObject = null;
-    remoteVideo.srcObject = null;
-    startCallBtn.style.display = 'inline-block';
-    endCallBtn.style.display = 'none';
-    endCallBtn.disabled = true;
-}
+// Recebendo mensagens do chat
+socket.on('chatMessage', (message) => {
+    const chatBox = document.getElementById('chat-box');
+    const msgElement = document.createElement('div');
+    msgElement.classList.add('message');
+    msgElement.innerText = message;
+    chatBox.appendChild(msgElement);
+});
+
+// Botões de ativar/desativar áudio e vídeo
+document.getElementById('toggle-audio').addEventListener('click', () => {
+    const stream = document.getElementById('local-video').srcObject;
+    const audioTrack = stream.getAudioTracks()[0];
+    audioTrack.enabled = !audioTrack.enabled;
+});
+
+document.getElementById('toggle-video').addEventListener('click', () => {
+    const stream = document.getElementById('local-video').srcObject;
+    const videoTrack = stream.getVideoTracks()[0];
+    videoTrack.enabled = !videoTrack.enabled;
+});
+
+// Conectar usuário ao chat e vídeo chamada
+document.getElementById('join-call').addEventListener('click', () => {
+    socket.emit('joinCall');
+});
+
+// Notificar sobre novos usuários na chamada
+socket.on('userConnected', (userId) => {
+    console.log(`Usuário conectado: ${userId}`);
+});
+
+// Melhorar experiência com animações
+document.getElementById('message-input').addEventListener('focus', () => {
+    document.getElementById('chat-box').classList.add('active');
+});
+
+document.getElementById('message-input').addEventListener('blur', () => {
+    document.getElementById('chat-box').classList.remove('active');
+});
