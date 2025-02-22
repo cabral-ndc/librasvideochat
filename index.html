@@ -4,21 +4,129 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Site Profissional</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Reset básico */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+
+        /* Estilo do cabeçalho e menu */
+        header {
+            position: fixed;
+            width: 100%;
+            background: transparent;
+            transition: background-color 0.3s ease;
+            z-index: 1000;
+        }
+
+        header.scrolled {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            padding: 15px;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #f4f4f4;
+        }
+
+        /* Estilo das seções */
+        .section {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        #inicio {
+            background: url('imagem-de-fundo.jpg') no-repeat center center/cover;
+            color: white;
+        }
+
+        #sobre, #servicos, #contato {
+            background: #f4f4f4;
+            color: #333;
+        }
+
+        h1, h2 {
+            margin-bottom: 20px;
+            font-size: 2.5em;
+        }
+
+        p {
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1.2em;
+        }
+
+        /* Animações de rolagem */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Estilos responsivos */
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            nav ul li {
+                margin: 10px 0;
+            }
+
+            .section {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            nav ul li a {
+                font-size: 16px;
+            }
+
+            h1, h2 {
+                font-size: 2em;
+            }
+
+            p {
+                font-size: 1em;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Plugin VLibras -->
-    <div vw class="enabled">
-        <div vw-access-button class="active"></div>
-        <div vw-plugin-wrapper>
-            <div class="vw-plugin-top-wrapper"></div>
-        </div>
-    </div>
-    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
-    <script>
-        new window.VLibras.Widget('https://vlibras.gov.br/app');
-    </script>
-
     <!-- Cabeçalho com Menu de Navegação -->
     <header id="header">
         <nav>
@@ -49,7 +157,34 @@
     </section>
 
     <!-- Scripts -->
-    <script src="https://unpkg.com/scrollreveal"></script>
-    <script src="script.js"></script>
+    <script>
+        // Mudança de cor do menu ao rolar a página
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Animações de revelação ao rolar
+        function reveal() {
+            const reveals = document.querySelectorAll('.reveal');
+            for (const reveal of reveals) {
+                const windowHeight = window.innerHeight;
+                const elementTop = reveal.getBoundingClientRect().top;
+                const elementVisible = 50;
+
+                if (elementTop < windowHeight - elementVisible) {
+                    reveal.classList.add('active');
+                } else {
+                    reveal.classList.remove('active');
+                }
+            }
+        }
+
+        window.addEventListener('scroll', reveal);
+    </script>
 </body>
 </html>
