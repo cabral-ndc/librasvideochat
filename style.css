@@ -1,80 +1,119 @@
-/* Degradê animado com movimento */
-@keyframes animatedGradient {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.animated-bg {
-  background: linear-gradient(270deg, #6a11cb, #2575fc);
-  background-size: 400% 400%;
-  animation: animatedGradient 10s ease infinite;
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
 }
 
-/* Transições avançadas no menu */
-.menu-item {
-  position: relative;
-  transition: all 0.3s ease-in-out;
-}
-.menu-item:hover {
-  transform: scale(1.1);
-}
-.submenu {
-  opacity: 0;
-  transform: translateY(-10px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-.menu-item:hover .submenu {
-  opacity: 1;
-  transform: translateY(0);
+/* Estilo do cabeçalho e menu */
+header {
+    position: fixed;
+    width: 100%;
+    background: transparent;
+    transition: background-color 0.3s ease;
+    z-index: 1000;
 }
 
-/* Scroll Reveal */
+header.scrolled {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    padding: 15px;
+}
+
+nav ul li {
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: #f4f4f4;
+}
+
+/* Estilo das seções */
+.section {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 20px;
+}
+
+#inicio {
+    background: url('imagem-de-fundo.jpg') no-repeat center center/cover;
+    color: white;
+}
+
+#sobre, #servicos, #contato {
+    background: #f4f4f4;
+    color: #333;
+}
+
+h1, h2 {
+    margin-bottom: 20px;
+    font-size: 2.5em;
+}
+
+p {
+    max-width: 600px;
+    margin: 0 auto;
+    font-size: 1.2em;
+}
+
+/* Animações de rolagem */
 .reveal {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
 }
+
 .reveal.active {
-  opacity: 1;
-  transform: translateY(0);
+    opacity: 1;
+    transform: translateY(0);
 }
 
-/* Hover 3D nos cards */
-.card {
-  transition: transform 0.3s ease;
-}
-.card:hover {
-  transform: perspective(1000px) rotateY(10deg) rotateX(5deg);
+/* Estilos responsivos */
+@media (max-width: 768px) {
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav ul li {
+        margin: 10px 0;
+    }
+
+    .section {
+        padding: 20px;
+    }
 }
 
-/* Placeholder animado no chat */
-@keyframes typing {
-  0%, 100% { content: 'Digite uma mensagem...'; }
-  50% { content: 'Conectando...'; }
-}
-.chat-input::placeholder {
-  font-style: italic;
-  animation: typing 4s infinite;
-}
+@media (max-width: 480px) {
+    nav ul li a {
+        font-size: 16px;
+    }
 
-/* Animação de entrada suave (Slide-Up) */
-.slide-up {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-}
-.slide-up.active {
-  opacity: 1;
-  transform: translateY(0);
-}
+    h1, h2 {
+        font-size: 2em;
+    }
 
-/* Modo escuro automático */
-@media (prefers-color-scheme: dark) {
-  body {
-    background-color: #121212;
-    color: #ffffff;
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
+    p {
+        font-size: 1em;
+    }
 }
-
