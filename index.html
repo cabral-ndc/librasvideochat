@@ -3,33 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LIBRAS Connect</title>
+    <title>Site Profissional</title>
     <link rel="stylesheet" href="styles.css">
-    <script defer src="script.js"></script>
 </head>
 <body>
-    <header>
-        <h1>LIBRAS Connect</h1>
+    <!-- Plugin VLibras -->
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
+
+    <!-- Cabeçalho com Menu de Navegação -->
+    <header id="header">
         <nav>
             <ul>
-                <li><a href="index.html">🏠 Início</a></li>
-                <li><a href="chat.html">💬 Chat</a></li>
-                <li><a href="video.html">📹 Vídeo Chamada</a></li>
-                <li><a href="dicionario.html">📖 Dicionário</a></li>
-                <li><a href="contato.html">📩 Contato</a></li>
+                <li><a href="#inicio">Início</a></li>
+                <li><a href="#sobre">Sobre</a></li>
+                <li><a href="#servicos">Serviços</a></li>
+                <li><a href="#contato">Contato</a></li>
             </ul>
         </nav>
     </header>
 
-    <main>
-        <section class="hero">
-            <h2>Conecte-se com pessoas através da LIBRAS!</h2>
-            <p>Uma plataforma acessível para comunicação por chat e videochamada em LIBRAS.</p>
-            <div class="buttons">
-                <a href="video.html" class="btn">📹 Iniciar Vídeo Chamada</a>
-                <a href="chat.html" class="btn">💬 Abrir Chat</a>
-            </div>
-        </section>
-    </main>
+    <!-- Seções do Site -->
+    <section id="inicio" class="section">
+        <h1>Bem-vindo ao Nosso Site</h1>
+    </section>
+    <section id="sobre" class="section reveal">
+        <h2>Sobre Nós</h2>
+        <p>Informações sobre a empresa.</p>
+    </section>
+    <section id="servicos" class="section reveal">
+        <h2>Serviços</h2>
+        <p>Detalhes dos serviços oferecidos.</p>
+    </section>
+    <section id="contato" class="section reveal">
+        <h2>Contato</h2>
+        <p>Formas de entrar em contato conosco.</p>
+    </section>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="script.js"></script>
 </body>
 </html>
